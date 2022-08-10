@@ -1,8 +1,8 @@
+import os
 from flask import Flask, request, url_for, session, redirect, render_template
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import time
-import os
 
 CLIENT_ID = os.environ.get("SPOTIPY_CLIENT_ID")
 CLIENT_SECRET = os.environ.get("SPOTIPY_CLIENT_SECRET")
@@ -10,8 +10,7 @@ TOKEN_INFO = ""
 
 app = Flask(__name__)
 
-app.secret_key = os.environ.get("SECRET_KEY")
-app.config['SESSION_COOKIE_NAME'] = 'hdn97h6g8qfn72qh7h'
+app.config['SECRET_KEY'] = os.urandom(64)
 
 
 @app.route('/')
@@ -47,6 +46,8 @@ def create_playlist(mood_status):
         token_info = get_token()
     except:
         return redirect(url_for("login", _external=False))
+    if os.path.exists('.cache'):
+        os.remove('.cache')
     sp = spotipy.Spotify(auth=token_info['access_token'])
 
     tracks = []
