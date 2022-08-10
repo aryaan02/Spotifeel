@@ -84,8 +84,8 @@ def create_playlist(mood_status):
                                      target_valence=valence)['tracks']
     elif mood_status == "chill":
         danceability = 0.3
-        energy = 0.3
-        valence = 0.5
+        energy = 0.4
+        valence = 0.6
         results = sp.recommendations(seed_artists=artists[:1], seed_genres=['chill', 'r-n-b'],
                                      target_danceability=danceability,
                                      target_energy=energy,
