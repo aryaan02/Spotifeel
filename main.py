@@ -28,6 +28,8 @@ def login():
 
 @app.route('/redirect')
 def redirect_page():
+    if os.path.exists('.cache'):
+        os.remove('.cache')
     sp_oauth = create_spotify_oauth()
     session.clear()
     code = request.args.get('code')
@@ -47,8 +49,6 @@ def create_playlist(mood_status):
         token_info = get_token()
     except:
         return redirect(url_for("login", _external=False))
-    if os.path.exists('.cache'):
-        os.remove('.cache')
     sp = spotipy.Spotify(auth=token_info['access_token'])
 
     tracks = []
@@ -122,4 +122,4 @@ def create_spotify_oauth():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
