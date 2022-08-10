@@ -10,7 +10,7 @@ TOKEN_INFO = ""
 
 app = Flask(__name__)
 
-app.secret_key = os.urandom(9)
+app.secret_key = os.environ.get("SECRET_KEY")
 app.config['SESSION_COOKIE_NAME'] = os.urandom(8)
 
 
