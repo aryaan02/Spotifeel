@@ -1,0 +1,15 @@
+{% include "header.html" %}
+            <h3>What's the mood for today?</h3>
+        </div>
+    </section>
+
+    <section id="mood">
+        <div class="mood-select">
+            <a href="{{ url_for('create_playlist', mood_status='happy') }}"><button type="button" class="btn btn-warning moods">Happy</button></a>
+            <a href="{{ url_for('create_playlist', mood_status='sad') }}"><button type="button" class="btn btn-primary moods">Sad</button></a>
+            <a href="{{ url_for('create_playlist', mood_status='angry') }}"><button type="button" class="btn btn-danger moods">Angry</button></a>
+            <a href="{{ url_for('create_playlist', mood_status='chill') }}"><button type="button" class="btn btn-success moods">Chill</button></a>
+        </div>
+    </section>
+
+{% include "footer.html" %}

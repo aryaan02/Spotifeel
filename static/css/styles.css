@@ -1,0 +1,29 @@
+body {
+    font-family: 'Comfortaa', cursive;
+    text-align: center;
+    background-color: #40394A;
+}
+
+h1 {
+    color: #7ECA9C;
+    font-family: 'Comfortaa', cursive;
+    font-weight: bold;
+    margin-top: 300px;
+    font-size: 6rem;
+}
+
+h3, h4 {
+    color: #CCFFBD;
+}
+
+/* Login Page */
+
+.login-button {
+    margin-top: 20px;
+}
+
+/* Mood select */
+
+.moods {
+    margin: 30px 10px 30px;
+}
