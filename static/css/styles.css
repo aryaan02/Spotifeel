@@ -9,11 +9,30 @@ h1 {
     font-family: 'Comfortaa', cursive;
     font-weight: bold;
     margin-top: 300px;
-    font-size: 6rem;
+    font-size: 1rem;
+    text-align: center;
+
 }
 
 h3, h4 {
     color: #CCFFBD;
+    text-align: center;
+}
+
+@media (min-width: 576px) {
+    h1 {
+        color: #7ECA9C;
+        font-family: 'Comfortaa', cursive;
+        font-weight: bold;
+        margin-top: 300px;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    h3, h4 {
+        color: #CCFFBD;
+        text-align: center;
+    }
 }
 
 /* Login Page */
