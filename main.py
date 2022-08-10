@@ -10,7 +10,8 @@ TOKEN_INFO = ""
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = os.urandom(64)
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+app.config['SESSION_COOKIE_NAME'] = 'nd8gq8f70h298un'
 
 
 @app.route('/')
