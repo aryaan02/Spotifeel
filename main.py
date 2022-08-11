@@ -70,7 +70,7 @@ def create_playlist(mood_status):
         danceability = 0.2
         energy = 0.1
         valence = 0.1
-        results = sp.recommendations(seed_artists=artists[:3],
+        results = sp.recommendations(seed_artists=artists[:3], seed_genres=['sad'],
                                      target_danceability=danceability,
                                      target_energy=energy,
                                      target_valence=valence)['tracks']
@@ -86,7 +86,7 @@ def create_playlist(mood_status):
         danceability = 0.3
         energy = 0.4
         valence = 0.6
-        results = sp.recommendations(seed_artists=artists[:1], seed_genres=['chill', 'r-n-b'],
+        results = sp.recommendations(seed_artists=artists[:1], seed_genres=['chill', 'r-n-b', 'road-trip'],
                                      target_danceability=danceability,
                                      target_energy=energy,
                                      target_valence=valence)['tracks']
@@ -95,7 +95,7 @@ def create_playlist(mood_status):
         energy = 1
         valence = 1
         popularity = 100
-        results = sp.recommendations(seed_artists=artists[:1], seed_genres=['pop', 'dance', 'happy'],
+        results = sp.recommendations(seed_genres=['party', 'pop', 'dance'],
                                      target_danceability=danceability,
                                      target_energy=energy,
                                      target_valence=valence,
