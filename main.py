@@ -94,7 +94,7 @@ def create_playlist(mood_status):
         danceability = 1
         energy = 1
         valence = 1
-        popularity = 90
+        popularity = 100
         results = sp.recommendations(seed_artists=artists[:1], seed_genres=['pop', 'dance', 'happy'],
                                      target_danceability=danceability,
                                      target_energy=energy,
