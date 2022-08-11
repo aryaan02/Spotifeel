@@ -90,6 +90,16 @@ def create_playlist(mood_status):
                                      target_danceability=danceability,
                                      target_energy=energy,
                                      target_valence=valence)['tracks']
+    elif mood_status == "party":
+        danceability = 1
+        energy = 1
+        valence = 1
+        popularity = 90
+        results = sp.recommendations(seed_artists=artists[:1], seed_genres=['pop', 'dance', 'happy'],
+                                     target_danceability=danceability,
+                                     target_energy=energy,
+                                     target_valence=valence,
+                                     target_popularity=popularity)['tracks']
 
     for result in results:
         if not result['uri'] in tracks:
