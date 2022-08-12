@@ -45,8 +45,8 @@ def mood():
 
 @app.route('/create-playlist', methods=["GET", "POST"])
 def create_playlist():
-    error = None
     tracks = []
+    moods = ['happy', 'sad', 'angry', 'chill', 'party']
 
     try:
         token_info = get_token()
@@ -59,12 +59,23 @@ def create_playlist():
     artist_uris = [artist['uri'] for artist in top_artists]
 
     mood_status = request.form['mood-status'].lower()
-    playlist_name = request.form['playlist-name']
+    if mood_status not in moods:
+        flash('Please select a mood.')
+        return redirect(url_for("mood", _external=False))
+
+    try:
+        playlist_name = request.form['playlist-name']
+    except KeyError:
+        flash('Please enter a playlist name.')
+        return redirect(url_for("mood", _external=False))
+
     song_number = request.form['song-number']
     if not song_number.isnumeric():
         flash('Please enter a valid number of songs.')
         return redirect(url_for("mood", _external=False))
+
     description = f"{mood_status.title()} songs"
+
     try:
         explicit_content = request.form['explicit']
     except KeyError:
