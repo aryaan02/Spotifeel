@@ -63,7 +63,7 @@ def create_playlist():
     song_number = request.form['song-number']
     if not song_number.isnumeric():
         flash('Please enter a valid number of songs.')
-        return redirect('mood.html')
+        return redirect(url_for("mood", _external=False))
     description = f"{mood_status.title()} songs"
     try:
         explicit_content = request.form['explicit']
