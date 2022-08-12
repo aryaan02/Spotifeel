@@ -63,9 +63,8 @@ def create_playlist():
         flash('Please select a mood.')
         return redirect(url_for("mood", _external=False))
 
-    try:
-        playlist_name = request.form['playlist-name']
-    except KeyError:
+    playlist_name = request.form['playlist-name']
+    if playlist_name == "":
         flash('Please enter a playlist name.')
         return redirect(url_for("mood", _external=False))
 
