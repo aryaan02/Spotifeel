@@ -104,6 +104,7 @@ def create_playlist():
         genres = ['party', 'edm', 'dance', 'disco']
 
     results = sp.recommendations(seed_genres=genres,
+                                 seed_artists=artist_uris[:1],
                                  target_danceability=danceability,
                                  target_energy=energy,
                                  target_valence=valence,
