@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, url_for, session, redirect, render_template
+from flask import Flask, request, url_for, session, redirect, render_template, flash
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import time
@@ -45,6 +45,7 @@ def mood():
 
 @app.route('/create-playlist', methods=["GET", "POST"])
 def create_playlist():
+    error = None
     tracks = []
 
     try:
@@ -60,6 +61,9 @@ def create_playlist():
     mood_status = request.form['mood-status'].lower()
     playlist_name = request.form['playlist-name']
     song_number = request.form['song-number']
+    if not song_number.isnumeric():
+        flash('Please enter a valid number of songs.')
+        return redirect('mood.html')
     description = f"{mood_status.title()} songs"
     try:
         explicit_content = request.form['explicit']

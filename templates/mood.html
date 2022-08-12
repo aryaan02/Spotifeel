@@ -6,6 +6,13 @@
     <section id="mood">
         <div class="mood-select">
             <form action="/create-playlist" method="post">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p style="color: red;">{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
                 <div class="form-group col-lg-3 col-md-4 col-sm-6 mx-auto">
                     <label class="form-control labels" for="mood-status">Mood</label>
                     <select class="form-control" id="mood-status" name="mood-status">
