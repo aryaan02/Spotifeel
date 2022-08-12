@@ -43,72 +43,82 @@ def mood():
     return render_template('mood.html')
 
 
-@app.route('/create-playlist/<mood_status>')
-def create_playlist(mood_status):
-    try:
-        token_info = get_token()
-    except:
-        return redirect(url_for("login", _external=False))
-    sp = spotipy.Spotify(auth=token_info['access_token'])
-
+@app.route('/create-playlist', methods=["GET", "POST"])
+def create_playlist():
     tracks = []
 
-    top_artists = sp.current_user_top_artists()['items']
-    artists = [artist['uri'] for artist in top_artists]
+    try:
+        token_info = get_token()
+    except None:
+        return redirect(url_for("login", _external=False))
 
-    results = []
+    sp = spotipy.Spotify(auth=token_info['access_token'])
+
+    top_artists = sp.current_user_top_artists()['items']
+    artist_uris = [artist['uri'] for artist in top_artists]
+
+    mood_status = request.form['mood-status'].lower()
+    playlist_name = request.form['playlist-name']
+    song_number = request.form['song-number']
+    description = f"{mood_status.title()} songs"
+    try:
+        explicit_content = request.form['explicit']
+    except KeyError:
+        explicit_content = ""
+
+    danceability = 0
+    energy = 0
+    valence = 0
+    popularity = 0
+    genres = []
 
     if mood_status == "happy":
-        danceability = 1
+        danceability = 0.8
         energy = 0.8
         valence = 1
-        results = sp.recommendations(seed_artists=artists[:1], seed_genres=['happy', 'pop'],
-                                     target_danceability=danceability,
-                                     target_energy=energy,
-                                     target_valence=valence)['tracks']
+        popularity = 90
+        genres = ['happy', 'pop', 'road-trip', 'summer']
     elif mood_status == "sad":
-        danceability = 0.2
+        danceability = 0.1
         energy = 0.1
         valence = 0.1
-        results = sp.recommendations(seed_artists=artists[:3], seed_genres=['sad'],
-                                     target_danceability=danceability,
-                                     target_energy=energy,
-                                     target_valence=valence)['tracks']
+        popularity = 90
+        genres = ['sad', 'r-n-b', 'rainy-day', 'romance']
     elif mood_status == "angry":
-        danceability = 0.8
+        danceability = 0.5
         energy = 1
         valence = 0.1
-        results = sp.recommendations(seed_artists=artists[:1], seed_genres=['rock'],
-                                     target_danceability=danceability,
-                                     target_energy=energy,
-                                     target_valence=valence)['tracks']
+        popularity = 80
+        genres = ['emo', 'heavy-metal', 'rock', 'rock-n-roll']
     elif mood_status == "chill":
         danceability = 0.3
-        energy = 0.4
+        energy = 0.3
         valence = 0.6
-        results = sp.recommendations(seed_artists=artists[:1], seed_genres=['chill', 'r-n-b', 'road-trip'],
-                                     target_danceability=danceability,
-                                     target_energy=energy,
-                                     target_valence=valence)['tracks']
+        popularity = 90
+        genres = ['chill', 'r-n-b', 'rainy-day', 'house']
     elif mood_status == "party":
         danceability = 1
         energy = 1
         valence = 1
-        popularity = 100
-        results = sp.recommendations(seed_genres=['party', 'pop', 'dance'],
-                                     target_danceability=danceability,
-                                     target_energy=energy,
-                                     target_valence=valence,
-                                     target_popularity=popularity)['tracks']
+        popularity = 90
+        genres = ['party', 'edm', 'dance', 'disco']
+
+    results = sp.recommendations(seed_genres=genres,
+                                 target_danceability=danceability,
+                                 target_energy=energy,
+                                 target_valence=valence,
+                                 target_popularity=popularity,
+                                 limit=song_number)['tracks']
 
     for result in results:
         if not result['uri'] in tracks:
-            tracks.append(result['uri'])
+            if explicit_content == "true" or not result['explicit']:
+                tracks.append(result['uri'])
 
-    playlist = sp.user_playlist_create(user=sp.current_user()['id'], name=mood_status.title(), public=False,
-                                       collaborative=False, description=f"{mood_status.title()} songs")
-    playlist_id = playlist['id']
+    playlist_id = sp.user_playlist_create(user=sp.current_user()['id'], name=playlist_name, public=False,
+                                          collaborative=False, description=description)['id']
     sp.playlist_add_items(playlist_id=playlist_id, items=tracks)
+
     return render_template('success.html')
 
 
@@ -132,4 +142,4 @@ def create_spotify_oauth():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run()

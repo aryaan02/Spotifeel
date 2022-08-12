@@ -8,7 +8,7 @@ h1 {
     color: #7ECA9C;
     font-family: 'Comfortaa', cursive;
     font-weight: bold;
-    margin-top: 300px;
+    margin-top: 270px;
     font-size: 6rem;
     text-align: center;
 }
@@ -44,6 +44,22 @@ h3, h4 {
 
 /* Mood select */
 
-.moods {
-    margin: 30px 10px 30px;
+.labels {
+    background-color: #40394A;
+    border-color: #40394A;
+    color: white;
+    text-align: left;
+    margin-bottom: 2px;
+}
+
+.form-check {
+    color: white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Success */
+
+.another-playlist {
+    margin-top: 20px;
 }
